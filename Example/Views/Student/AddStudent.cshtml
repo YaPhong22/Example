@@ -1,0 +1,41 @@
+﻿@model Example.Models.Student
+
+<div class="container mt-4">
+    <h2>Thêm sinh viên mới</h2>
+    <hr />
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="mb-3">
+                <label>Họ tên</label>
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            <div class="mb-3">
+                <label>Tuổi</label>
+                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            <div class="mb-3">
+                <label>Giới tính</label>
+                <select name="Gender" class="form-control">
+                    <option value="true">Nam</option>
+                    <option value="false">Nữ</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Link ảnh</label>
+                @Html.EditorFor(model => model.ImgUrl, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Tạo mới</button>
+                <a href="@Url.Action("ListAll")" class="btn btn-secondary">Hủy</a>
+            </div>
+        </div>
+    }
+</div>

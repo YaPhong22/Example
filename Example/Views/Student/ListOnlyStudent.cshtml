@@ -1,0 +1,48 @@
+﻿@model Example.Models.Student
+
+@{
+    ViewBag.Title = "Chi tiết sinh viên";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h3>Thông tin chi tiết: @Model.Name</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img src="@Model.ImgUrl" alt="@Model.Name" class="img-thumbnail" style="max-width: 200px;" />
+                </div>
+                <div class="col-md-8">
+                    <table class="table table-striped">
+                        <tr>
+                            <th width="30%">Mã sinh viên (ID):</th>
+                            <td>@Model.Id</td>
+                        </tr>
+                        <tr>
+                            <th>Họ và tên:</th>
+                            <td>@Model.Name</td>
+                        </tr>
+                        <tr>
+                            <th>Tuổi:</th>
+                            <td>@Model.Age</td>
+                        </tr>
+                        <tr>
+                            <th>Giới tính:</th>
+                            <td>@(Model.Gender ? "Nam" : "Nữ")</td>
+                        </tr>
+                        <tr>
+                            <th>Mô tả:</th>
+                            <td>@Model.Des</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("EditStudent", new { id = Model.Id })" class="btn btn-warning">Chỉnh sửa</a>
+            <a href="@Url.Action("ListAll")" class="btn btn-secondary">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>
