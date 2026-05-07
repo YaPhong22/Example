@@ -6,7 +6,7 @@ namespace Example.Controllers
     public class StudentController : Controller
     {
 
-        private static List<Student> ListStudents = new List<Student>()
+        private static List<Student> listStudents = new List<Student>()
         {
             new Student { Id = 1, Name = "Đức Đạt", Age = 19, Gender = true, ImgUrl = "https://bestflashcard.com/images/vocabulary/english/sgk-tieng-anh-lop-4-unit-6/study.PNG", Des = "Mô tả thông tin sinh viên" },
             new Student { Id = 2, Name = "Thùy Trâm", Age = 25, Gender = false, ImgUrl = "https://cdn.vungoi.vn/vungoi/2021/1224/1640339805116_104.png", Des = "Mô tả thông tin sinh viên" },
@@ -17,14 +17,14 @@ namespace Example.Controllers
 
         public IActionResult ListAll()
         {
-            return View(ListStudents);
+            return View(listStudents);
         }
 
        
         public IActionResult ListOnlyStudent(int id)
         {
     
-            var student = ListStudents.FirstOrDefault(s => s.Id == id);
+            var student = listStudents.FirstOrDefault(s => s.Id == id);
 
             if (student == null)
             {
@@ -39,7 +39,7 @@ namespace Example.Controllers
         public IActionResult EditStudent(int id)
         {
 
-            var student = ListStudents.FirstOrDefault(s => s.Id == id);
+            var student = listStudents.FirstOrDefault(s => s.Id == id);
 
             if (student == null) return NotFound();
 
@@ -48,27 +48,21 @@ namespace Example.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult EditStudent(Student sv)
         {
-            if (ModelState.IsValid)
+            Student oldstudent = listStudents.FirstOrDefault(x => x.Id == sv.Id);
+
+            if(oldstudent == null)
             {
-
-                var existingStudent = ListStudents.FirstOrDefault(s => s.Id == sv.Id);
-
-                if (existingStudent != null)
-                {
-
-                    existingStudent.Name = sv.Name;
-                    existingStudent.Age = sv.Age;
-                    existingStudent.Gender = sv.Gender;
-                    existingStudent.ImgUrl = sv.ImgUrl;
-                    existingStudent.Des = sv.Des;
-                }
-
-                return RedirectToAction("ListAll");
+                return NotFound();
             }
-            return View(sv);
+
+            oldstudent.Name = sv.Name;
+            oldstudent.Age = sv.Age;
+            oldstudent.Gender = sv.Gender;
+            oldstudent.ImgUrl = sv.ImgUrl;
+
+            return RedirectToAction("ListAll");
         }
 
         public IActionResult AddStudent()
@@ -83,9 +77,9 @@ namespace Example.Controllers
             if (ModelState.IsValid)
             {
 
-                sv.Id = ListStudents.Any() ? ListStudents.Max(s => s.Id) + 1 : 1;
+                sv.Id = listStudents.Any() ? listStudents.Max(s => s.Id) + 1 : 1;
 
-                ListStudents.Add(sv);
+                listStudents.Add(sv);
 
                 return RedirectToAction("ListAll");
             }
@@ -95,10 +89,10 @@ namespace Example.Controllers
 
         public IActionResult DelStudent(int id)
         {
-            var student = ListStudents.FirstOrDefault(s => s.Id == id);
+            var student = listStudents.FirstOrDefault(s => s.Id == id);
             if (student != null)
             {
-                ListStudents.Remove(student);
+                listStudents.Remove(student);
             }
             return RedirectToAction("ListAll");
         }
